@@ -7,19 +7,24 @@ But that's the kind of boilerplate you generate... right?
 
 Example wiring:
 
+    import (
+        "github.com/Meduzz/wendy"
+        "github.com/gin-gonic/gin"
+    )
+
     func main() {
         srv := gin.Default()
-        logic := wendy.Local(<modules>)|wendy.Proxy(rpc)
+        logic := wendy.NewLocal(<modules>)|wendy.NewProxy(rpc)
         
         srv.POST("/api", func(ctx *gin.Context) {
-            req := &wendy.Request{Context: &Context{}}
+            req := &wendy.Request{Context: &wendy.Context{}}
             ctx.BindJSON(req)
 
             res := logic.Handle(req) // this is wendy
 
             if res.Headers != nil {
                 for k, v := range res.Headers {
-                    ctx.SetHeader(k, v)
+                    ctx.Header(k, v)
                 }
             }
 

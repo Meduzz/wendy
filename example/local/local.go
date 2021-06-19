@@ -1,21 +1,21 @@
 package main
 
 import (
-	wendy "../.."
-	"../service"
+	"github.com/Meduzz/wendy"
+	"github.com/Meduzz/wendy/example/service"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	srv := gin.Default()
-	logic := wendy.Local(service.ServiceModule())
+	logic := wendy.NewLocal(service.ServiceModule())
 
 	// add static paths and what else is needed for the app
 
 	// register wendy api path
 	srv.POST("/api", func(ctx *gin.Context) {
 		// start by binding request
-		req := &wendy.Request{Context: &Context{}}
+		req := &wendy.Request{Context: &wendy.Context{}}
 		err := ctx.BindJSON(req)
 
 		if err != nil {
@@ -33,7 +33,7 @@ func main() {
 		// start dealing with the response
 		if res.Headers != nil {
 			for k, v := range res.Headers {
-				ctx.SetHeader(k, v)
+				ctx.Header(k, v)
 			}
 		}
 

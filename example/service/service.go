@@ -104,7 +104,7 @@ func findService(req *wendy.Request) *wendy.Response {
 		return wendy.NotFound()
 	}
 
-	idx := rand.Intn(len(list) - 1)
+	idx := rand.Intn(len(list))
 	svc := list[idx]
 
 	resp := wendy.Ok()
