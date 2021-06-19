@@ -39,7 +39,7 @@ A module encapsulates a bunch of logic that is somehow connected. So in a CRUD a
 
 On the module you register RPC handler functions.
 
-For an example module have a look at the [example service](blob/master/example/service/service.go)
+For an example module have a look at the [example service](example/service/service.go)
 
 ## Run modes
 
