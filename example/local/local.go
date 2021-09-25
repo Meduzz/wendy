@@ -15,7 +15,7 @@ func main() {
 	// register wendy api path
 	srv.POST("/api", func(ctx *gin.Context) {
 		// start by binding request
-		req := &wendy.Request{Context: &wendy.Context{}}
+		req := &wendy.Request{}
 		err := ctx.BindJSON(req)
 
 		if err != nil {
@@ -23,9 +23,6 @@ func main() {
 			ctx.AbortWithStatus(400)
 			return
 		}
-
-		// add any authentification & authorization needed
-		req.Context.ID = "<id of calling service>" // set id
 
 		// call wendy
 		res := logic.Handle(req)

@@ -1,17 +1,15 @@
 package wendy
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type (
 	Request struct {
-		Module  string          `json:"module"`
-		Method  string          `json:"method"`
-		Context *Context        `json:"context,omitempty"`
-		Body    json.RawMessage `json:"body,omitempty"`
-	}
-
-	Context struct {
-		Caller string `json:"caller"`
+		Module  string            `json:"module"`
+		Method  string            `json:"method"`
+		Headers map[string]string `json:"headers,omitempty"`
+		Body    json.RawMessage   `json:"body,omitempty"`
 	}
 
 	Response struct {
