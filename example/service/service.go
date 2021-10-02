@@ -42,8 +42,7 @@ func addService(req *wendy.Request) *wendy.Response {
 
 	registry[svc.Name] = list
 
-	resp := wendy.Ok()
-	resp.SetBody(len(list))
+	resp := wendy.Ok(len(list))
 
 	return resp
 }
@@ -55,8 +54,7 @@ func removeService(req *wendy.Request) *wendy.Response {
 	list, ok := registry[svc.Name]
 
 	if !ok {
-		resp := wendy.Ok()
-		resp.SetBody(0)
+		resp := wendy.Ok(0)
 
 		return resp
 	}
@@ -64,8 +62,7 @@ func removeService(req *wendy.Request) *wendy.Response {
 	list = filter(list, svc)
 	registry[svc.Name] = list
 
-	resp := wendy.Ok()
-	resp.SetBody(len(list))
+	resp := wendy.Ok(len(list))
 
 	return resp
 }
@@ -82,8 +79,7 @@ func listServices(req *wendy.Request) *wendy.Response {
 		return resp
 	}
 
-	resp := wendy.Ok()
-	resp.SetBody(list)
+	resp := wendy.Ok(list)
 
 	return resp
 }
@@ -107,8 +103,7 @@ func findService(req *wendy.Request) *wendy.Response {
 	idx := rand.Intn(len(list))
 	svc := list[idx]
 
-	resp := wendy.Ok()
-	resp.SetBody(svc)
+	resp := wendy.Ok(svc)
 
 	return resp
 }
