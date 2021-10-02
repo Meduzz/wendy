@@ -24,7 +24,7 @@ func (w *wendyProxy) Handle(req *Request) *Response {
 			return &Response{503, nil, nil}
 		} else {
 			log.Printf("Request to %s threw error: %v\n", topic, err)
-			return Error()
+			return Error(nil)
 		}
 	}
 
@@ -33,7 +33,7 @@ func (w *wendyProxy) Handle(req *Request) *Response {
 
 	if err != nil {
 		log.Printf("Parsing response threw error: %v\n", err)
-		return Error()
+		return Error(nil)
 	}
 
 	return res
