@@ -61,20 +61,44 @@ func (r *Response) Bind(into interface{}) error {
 	return json.Unmarshal(r.Body, into)
 }
 
-func Ok() *Response {
-	return &Response{200, nil, nil}
+func Ok(body interface{}) *Response {
+	res := &Response{200, nil, nil}
+
+	if body != nil {
+		res.SetBody(body)
+	}
+
+	return res
 }
 
-func Error() *Response {
-	return &Response{500, nil, nil}
+func Error(body interface{}) *Response {
+	res := &Response{500, nil, nil}
+
+	if body != nil {
+		res.SetBody(body)
+	}
+
+	return res
 }
 
-func BadRequest() *Response {
-	return &Response{400, nil, nil}
+func BadRequest(body interface{}) *Response {
+	res := &Response{400, nil, nil}
+
+	if body != nil {
+		res.SetBody(body)
+	}
+
+	return res
 }
 
-func Forbidden() *Response {
-	return &Response{403, nil, nil}
+func Forbidden(body interface{}) *Response {
+	res := &Response{403, nil, nil}
+
+	if body != nil {
+		res.SetBody(body)
+	}
+
+	return res
 }
 
 func Authorize() *Response {
