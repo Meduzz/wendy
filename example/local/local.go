@@ -35,7 +35,7 @@ func main() {
 		}
 
 		if res.Body != nil {
-			ctx.JSON(res.Code, res.Body)
+			ctx.Data(res.Code, res.Body.Type, res.Body.Data)
 		} else {
 			ctx.Status(res.Code)
 		}

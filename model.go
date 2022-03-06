@@ -2,6 +2,7 @@ package wendy
 
 import (
 	"encoding/json"
+	"log"
 )
 
 type (
@@ -9,45 +10,30 @@ type (
 		Module  string            `json:"module"`
 		Method  string            `json:"method"`
 		Headers map[string]string `json:"headers,omitempty"`
-		Body    json.RawMessage   `json:"body,omitempty"`
+		Body    *Body             `json:"body,omitempty"`
 	}
 
 	Response struct {
 		Code    int               `json:"status"`
 		Headers map[string]string `json:"headers,omitempty"`
-		Body    json.RawMessage   `json:"body,omitempty"`
+		Body    *Body             `json:"body,omitempty"`
+	}
+
+	Body struct {
+		Type string `json:"type"`
+		Data []byte `json:"data"`
 	}
 
 	Handler = func(*Request) *Response
 )
 
-func (r *Request) Bind(into interface{}) error {
-	return json.Unmarshal(r.Body, into)
-}
-
-func (r *Request) SetBody(any interface{}) error {
-	bs, err := json.Marshal(any)
-
-	if err != nil {
-		return err
-	}
-
-	r.Body = json.RawMessage(bs)
-
-	return nil
-}
-
-func (r *Response) SetBody(any interface{}) error {
-	bs, err := json.Marshal(any)
-
-	if err != nil {
-		return err
-	}
-
-	r.Body = json.RawMessage(bs)
-
-	return nil
-}
+const (
+	JSON = "application/json"
+	HTML = "text/html"
+	TEXT = "text/plain"
+	JS   = "text/javascript"
+	CSS  = "text/css"
+)
 
 func (r *Response) SetHeader(key, value string) {
 	if r.Headers == nil {
@@ -57,45 +43,41 @@ func (r *Response) SetHeader(key, value string) {
 	r.Headers[key] = value
 }
 
-func (r *Response) Bind(into interface{}) error {
-	return json.Unmarshal(r.Body, into)
-}
-
-func Ok(body interface{}) *Response {
+func Ok(body *Body) *Response {
 	res := &Response{200, nil, nil}
 
 	if body != nil {
-		res.SetBody(body)
+		res.Body = body
 	}
 
 	return res
 }
 
-func Error(body interface{}) *Response {
+func Error(body *Body) *Response {
 	res := &Response{500, nil, nil}
 
 	if body != nil {
-		res.SetBody(body)
+		res.Body = body
 	}
 
 	return res
 }
 
-func BadRequest(body interface{}) *Response {
+func BadRequest(body *Body) *Response {
 	res := &Response{400, nil, nil}
 
 	if body != nil {
-		res.SetBody(body)
+		res.Body = body
 	}
 
 	return res
 }
 
-func Forbidden(body interface{}) *Response {
+func Forbidden(body *Body) *Response {
 	res := &Response{403, nil, nil}
 
 	if body != nil {
-		res.SetBody(body)
+		res.Body = body
 	}
 
 	return res
@@ -107,4 +89,30 @@ func Authorize() *Response {
 
 func NotFound() *Response {
 	return &Response{404, nil, nil}
+}
+
+func Json(data interface{}) *Body {
+	bs, err := json.Marshal(data)
+
+	if err != nil {
+		log.Printf("Turning data into json failed: %v\n", err)
+	}
+
+	return &Body{JSON, bs}
+}
+
+func Static(encoding string, data []byte) *Body {
+	return &Body{encoding, data}
+}
+
+func Text(text string) *Body {
+	return &Body{TEXT, []byte(text)}
+}
+
+func (b *Body) Bind(into interface{}) error {
+	return json.Unmarshal(b.Data, into)
+}
+
+func (b *Body) Text() string {
+	return string(b.Data)
 }
