@@ -10,10 +10,13 @@ This is a super simple example of a wendy service. It is a very naive service di
         "module":"service",
         "method":"add",
         "body": {
-            "name":"service-discovery",
-            "tags":["awesome"],
-            "host":"127.0.0.2",
-            "port":8080
+            "type":"application/json",
+            "data":{
+                "name":"service-discovery",
+                "tags":["awesome"],
+                "host":"127.0.0.2",
+                "port":8080
+            }
         }
     }
 
@@ -24,7 +27,10 @@ This is a super simple example of a wendy service. It is a very naive service di
     {
         "module":"service",
         "method":"list",
-        "body": "service-discovery"
+        "body": {
+            "type":"application/json",
+            "data":"service-discovery"
+        }
     }
 
 ## Find a service (random lb in a pool)
@@ -34,7 +40,10 @@ This is a super simple example of a wendy service. It is a very naive service di
     {
         "module":"service",
         "method":"find",
-        "body": "service-discovery"
+        "body": {
+            "type":"application/json",
+            "data":"service-discovery"
+        }
     }
 
 ## Remove a service from the pool
@@ -45,8 +54,11 @@ This is a super simple example of a wendy service. It is a very naive service di
         "module":"service",
         "method":"remove",
         "body": {
-            "name":"service-discovery",
-            "host":"127.0.0.2",
-            "port":8080
+            "type":"application/json",
+            "data":{
+                "name":"service-discovery",
+                "host":"127.0.0.2",
+                "port":8080
+            }
         }
     }

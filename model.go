@@ -20,8 +20,8 @@ type (
 	}
 
 	Body struct {
-		Type string `json:"type"`
-		Data []byte `json:"data"`
+		Type string          `json:"type"`
+		Data json.RawMessage `json:"data"`
 	}
 
 	Handler = func(*Request) *Response
