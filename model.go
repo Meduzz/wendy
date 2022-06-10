@@ -33,6 +33,7 @@ const (
 	TEXT = "text/plain"
 	JS   = "text/javascript"
 	CSS  = "text/css"
+	FORM = "application/x-www-form-urlencoded"
 )
 
 func (r *Response) SetHeader(key, value string) {
@@ -107,6 +108,10 @@ func Static(encoding string, data []byte) *Body {
 
 func Text(text string) *Body {
 	return &Body{TEXT, []byte(text)}
+}
+
+func Form(bytes []byte) *Body {
+	return &Body{FORM, bytes}
 }
 
 func (b *Body) Bind(into interface{}) error {
