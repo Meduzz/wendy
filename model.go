@@ -75,6 +75,16 @@ func BadRequest(body *Body) *Response {
 }
 
 func Forbidden(body *Body) *Response {
+	res := &Response{401, nil, nil}
+
+	if body != nil {
+		res.Body = body
+	}
+
+	return res
+}
+
+func NotAllowed(body *Body) *Response {
 	res := &Response{403, nil, nil}
 
 	if body != nil {
@@ -84,12 +94,18 @@ func Forbidden(body *Body) *Response {
 	return res
 }
 
-func Authorize() *Response {
-	return &Response{401, nil, nil}
-}
-
 func NotFound() *Response {
 	return &Response{404, nil, nil}
+}
+
+func Invalid(body *Body) *Response {
+	res := &Response{409, nil, nil}
+
+	if body != nil {
+		res.Body = body
+	}
+
+	return res
 }
 
 func Json(data interface{}) *Body {
