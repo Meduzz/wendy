@@ -1,6 +1,7 @@
 package wendy
 
 import (
+	"context"
 	"fmt"
 	"log"
 
@@ -14,9 +15,9 @@ type (
 	}
 )
 
-func (w *wendyProxy) Handle(req *Request) *Response {
+func (w *wendyProxy) Handle(ctx context.Context, req *Request) *Response {
 	topic := fmt.Sprintf("%s.%s.%s", req.App, req.Module, req.Method)
-	resCtx, err := w.srv.Request(topic, req, 10)
+	resCtx, err := w.srv.RequestContext(ctx, topic, req)
 
 	if err != nil {
 		if err == nats.ErrTimeout {

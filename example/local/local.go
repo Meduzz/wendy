@@ -8,7 +8,15 @@ import (
 
 func main() {
 	srv := gin.Default()
+	// try out serving modules locally
 	logic := wendy.NewLocal(service.ServiceModule())
+
+	/*
+		// or try out the remote one (dont forget to start remote/remote.go)
+		conn, _ := nuts.Connect()
+		rpcSrv := rpc.NewRpc(conn)
+		logic := wendy.NewProxy(rpcSrv)
+	*/
 
 	// add static paths and what else is needed for the app
 
@@ -25,7 +33,7 @@ func main() {
 		}
 
 		// call wendy
-		res := logic.Handle(req)
+		res := logic.Handle(ctx, req)
 
 		// start dealing with the response
 		if res.Headers != nil {

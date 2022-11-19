@@ -1,11 +1,13 @@
 package wendy
 
 import (
+	"context"
+
 	"github.com/Meduzz/rpc"
 )
 
 type Wendy interface {
-	Handle(*Request) *Response
+	Handle(context.Context, *Request) *Response
 }
 
 // Proxy - boot wendy in proxy mode

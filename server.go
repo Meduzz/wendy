@@ -18,7 +18,7 @@ func ServeModules(conn *nats.Conn, queue string, modules ...*Module) error {
 				return err
 			}
 		} else {
-			_, err := conn.Subscribe(fmt.Sprintf("%s.*", m.Name()), wrapModule(m))
+			_, err := conn.Subscribe(fmt.Sprintf("%s.%s.*", m.App(), m.Name()), wrapModule(m))
 
 			if err != nil {
 				return err
@@ -38,7 +38,7 @@ func ServeMethod(conn *nats.Conn, queue, app, module, method string, handler Han
 			return err
 		}
 	} else {
-		_, err := conn.Subscribe(fmt.Sprintf("%s.%s", module, method), wrapHandler(handler))
+		_, err := conn.Subscribe(fmt.Sprintf("%s.%s.%s", app, module, method), wrapHandler(handler))
 
 		if err != nil {
 			return err
