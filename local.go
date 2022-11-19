@@ -6,7 +6,7 @@ type wendyLocal struct {
 
 func (w *wendyLocal) Handle(req *Request) *Response {
 	for _, m := range w.modules {
-		if m.Name() == req.Module {
+		if m.App() == req.App && m.Name() == req.Module {
 			method := m.Method(req.Method)
 
 			if method != nil {

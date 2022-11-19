@@ -2,14 +2,19 @@ package wendy
 
 type (
 	Module struct {
+		app     string
 		name    string
 		methods map[string]Handler
 	}
 )
 
-func NewModule(name string) *Module {
+func NewModule(app, name string) *Module {
 	methods := make(map[string]Handler)
-	return &Module{name, methods}
+	return &Module{app, name, methods}
+}
+
+func (m *Module) App() string {
+	return m.app
 }
 
 func (m *Module) Name() string {

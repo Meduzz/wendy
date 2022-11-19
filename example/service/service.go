@@ -16,7 +16,7 @@ type (
 )
 
 func ServiceModule() *wendy.Module {
-	module := wendy.NewModule("service")
+	module := wendy.NewModule("example", "service")
 	return module.
 		WithHandler("add", addService).
 		WithHandler("remove", removeService).

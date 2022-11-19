@@ -15,7 +15,7 @@ type (
 )
 
 func (w *wendyProxy) Handle(req *Request) *Response {
-	topic := fmt.Sprintf("%s.%s", req.Module, req.Method)
+	topic := fmt.Sprintf("%s.%s.%s", req.App, req.Module, req.Method)
 	resCtx, err := w.srv.Request(topic, req, 10)
 
 	if err != nil {

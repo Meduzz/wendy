@@ -7,6 +7,7 @@ import (
 
 type (
 	Request struct {
+		App     string            `json:"app"`
 		Module  string            `json:"module"`
 		Method  string            `json:"method"`
 		Headers map[string]string `json:"headers,omitempty"`
@@ -96,6 +97,13 @@ func NotAllowed(body *Body) *Response {
 
 func NotFound() *Response {
 	return &Response{404, nil, nil}
+}
+
+func Redirect(url string) *Response {
+	headers := make(map[string]string)
+	headers["Location"] = url
+
+	return &Response{303, headers, nil}
 }
 
 func Invalid(body *Body) *Response {
