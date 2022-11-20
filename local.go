@@ -17,7 +17,7 @@ func (w *wendyLocal) Handle(ctx context.Context, req *Request) *Response {
 			return &Response{503, nil, nil}
 		}
 
-		if m.App() == req.App && m.Name() == req.Module {
+		if m.Name() == req.Module {
 			method := m.Method(req.Method)
 
 			if method != nil {
