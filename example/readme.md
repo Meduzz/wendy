@@ -7,7 +7,6 @@ This is a super simple example of a wendy service. It is a very naive service di
     POST localhost:8080/api
 
     {
-        "app":"example",
         "module":"service",
         "method":"add",
         "body": {
@@ -26,7 +25,6 @@ This is a super simple example of a wendy service. It is a very naive service di
     POST localhost:8080/api
 
     {
-        "app":"example",
         "module":"service",
         "method":"list",
         "body": {
@@ -40,7 +38,6 @@ This is a super simple example of a wendy service. It is a very naive service di
     POST localhost:8080/api
 
     {
-        "app":"example",
         "module":"service",
         "method":"find",
         "body": {
@@ -54,7 +51,6 @@ This is a super simple example of a wendy service. It is a very naive service di
     POST localhost:8080/api
 
     {
-        "app":"example",
         "module":"service",
         "method":"remove",
         "body": {

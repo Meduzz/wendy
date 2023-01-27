@@ -48,7 +48,7 @@ For an example module have a look at the [example service](example/service/servi
 
 ## Run modes
 
-You can select between 2 run modes, the most basic one is `wendy.Local` which means you never leave the web service. The second mode is `wendy.Proxy` which turns the web service into a thin proxy, sending request over nats to well known topics `<app>.<module>.<method>`. This forces you to move your logic over into a RPC service but allows you to break it appart even further into RPC methods if needed later.
+You can select between 2 run modes, the most basic one is `wendy.Local` which means you never leave the web service. The second mode is `wendy.Proxy` which turns the web service into a thin proxy, sending request over nats to well known topics `<module>.<method>`. This forces you to move your logic over into a RPC service but allows you to break it appart even further into RPC methods if needed later.
 
 ## The imagined use case
 
@@ -58,7 +58,7 @@ The way I imagine this framework will be used is like this:
 
 2. As your service grow, or you iterate it, you'd break it out into a web service and a number RPC services (one per module), listening on nats on topic `<module>.>`. You would switch from the `wendy.Local` handler to the `wendy.Proxy` handler. Inside the RPC service, you can still use `wendy.Module` to handle your "routing". This lets you scale each module individually. This also opens up for writing RPC services in other languages than go.
 
-3. As your service continue to grow, you break your modules into individual RPC functions, listening on topic `<app>.<module>.<method>`. Your web service would continue using `wendy.Proxy`. This lets you scale each function individually.
+3. As your service continue to grow, you break your modules into individual RPC functions, listening on topic `<module>.<method>`. Your web service would continue using `wendy.Proxy`. This lets you scale each function individually.
 
 ## Extension points
 
