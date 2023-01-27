@@ -1,67 +1,37 @@
-# wendy
-Another web framework, how many have I created by now?
+# Wendy
 
-This one is slightly different however. It has heavy focus on http rpc, so much that all rpc can go through a single endpoint. All requests are expected to follow a simple base protocol. It still leaves up to the implementor to wire things together.
+Wendy is a lightweight meta http framework. At the base is a familiar `Handler`-func `func(*wendy.Request) *wendy.Response`. What differs is the routing, instead of urls, a `Handler`-func is bound to a module and a name.
 
-But that's the kind of boilerplate you generate... right?
+You take care of the routing from what ever transport you're using into wendy.
 
-Example wiring:
-
-    import (
-        "github.com/Meduzz/wendy"
-        "github.com/gin-gonic/gin"
-    )
-
-    func main() {
-        srv := gin.Default()
-        logic := wendy.NewLocal(<modules>)|wendy.NewProxy(rpc)
-        
-        srv.POST("/api", func(ctx *gin.Context) {
-            req := &wendy.Request{Context: &wendy.Context{}}
-            ctx.BindJSON(req)
-
-            res := logic.Handle(req) // this is wendy
-
-            if res.Headers != nil {
-                for k, v := range res.Headers {
-                    ctx.Header(k, v)
-                }
-            }
-
-            if res.Body != nil {
-                ctx.JSON(res.Code, res.Body)
-            } else {
-                ctx.Status(res.Code)
-            }
-        })
-
-        srv.Run(":8080")
-    }
+Dont forget to have a look at the premade transports:
+* RPC https://github.com/Meduzz/wendy-rpc
+* GIN https://github.com/Meduzz/wendy-gin
 
 ## Modules
 
-A module encapsulates a bunch of logic that is somehow connected. So in a CRUD app the module would be named after the entity and then have a bunch of methods to interact with that entity.
+Think of modules as a container for a bunch of logic that is somehow connected. Ex. in a CRUD app the module would be named after the entity and then have a bunch of methods to interact with that entity.
 
-On the module you register RPC handler functions.
+On the module you register your `Handler`-funcs.
 
 For an example module have a look at the [example service](example/service/service.go)
 
-## Run modes
+## Request
 
-You can select between 2 run modes, the most basic one is `wendy.Local` which means you never leave the web service. The second mode is `wendy.Proxy` which turns the web service into a thin proxy, sending request over nats to well known topics `<module>.<method>`. This forces you to move your logic over into a RPC service but allows you to break it appart even further into RPC methods if needed later.
+The request is modeled roughtly after a http request, exept for the routing ofc. It has `Module` and `Method` properties for routing. It has a `Header` property (`map[string]string`). It has a `Body` property, that in turn have its own format.
 
-## The imagined use case
+### Body
 
-The way I imagine this framework will be used is like this:
+The body have 2 properties, `Type` which matches perfectly with the http `Content-Type` and `Data` which is a byte array.
 
-1. You start up PoCing a service, you put all your logic in the service together with any statics you might like. You'd use the `wendy.Local` method, which takes all your modules and mount the handler it returns on `/api`.
+#### Helpers
 
-2. As your service grow, or you iterate it, you'd break it out into a web service and a number RPC services (one per module), listening on nats on topic `<module>.>`. You would switch from the `wendy.Local` handler to the `wendy.Proxy` handler. Inside the RPC service, you can still use `wendy.Module` to handle your "routing". This lets you scale each module individually. This also opens up for writing RPC services in other languages than go.
+There are helpers for the most common body types. (Json, Form, Text & Static)
 
-3. As your service continue to grow, you break your modules into individual RPC functions, listening on topic `<module>.<method>`. Your web service would continue using `wendy.Proxy`. This lets you scale each function individually.
+## Response
 
-## Extension points
+The response too is modeled after its http counter part. So it has a `Code` property, which matches the http status code. It has `Headers` property, again a `map[string]string`. And it has a `Body` property, of the same type as the request.
 
-Since you are in charge of wiring the web service/proxy together. You can use middlewares there to achieve things.
+### Helpers
 
-Further down the stack, the RPC handler function is pretty simple and could simply be wrapped.
+There are helpers for the most common responses. (Ok, BadRequest, Error, Forbidden, NotAllowed, NotFound, Invalid & Redirect)
