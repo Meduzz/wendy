@@ -9,7 +9,7 @@ type Wendy interface {
 }
 
 // Local - boot wendy in local mode
-func NewLocal(modules ...*Module) Wendy {
+func NewLocal(app string, modules ...*Module) Wendy {
 	// Handle the request locally
-	return local(modules)
+	return local(app, modules)
 }
