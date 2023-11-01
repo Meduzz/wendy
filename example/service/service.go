@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"math/rand"
 
 	"github.com/Meduzz/wendy"
@@ -28,7 +29,7 @@ var (
 	registry = make(map[string][]*Service)
 )
 
-func addService(req *wendy.Request) *wendy.Response {
+func addService(ctx context.Context, req *wendy.Request) *wendy.Response {
 	svc := &Service{}
 	req.Body.Bind(svc)
 
@@ -47,7 +48,7 @@ func addService(req *wendy.Request) *wendy.Response {
 	return resp
 }
 
-func removeService(req *wendy.Request) *wendy.Response {
+func removeService(ctx context.Context, req *wendy.Request) *wendy.Response {
 	svc := &Service{}
 	req.Body.Bind(svc)
 
@@ -67,7 +68,7 @@ func removeService(req *wendy.Request) *wendy.Response {
 	return resp
 }
 
-func listServices(req *wendy.Request) *wendy.Response {
+func listServices(ctx context.Context, req *wendy.Request) *wendy.Response {
 	name := ""
 	req.Body.Bind(&name)
 
@@ -84,7 +85,7 @@ func listServices(req *wendy.Request) *wendy.Response {
 	return resp
 }
 
-func findService(req *wendy.Request) *wendy.Response {
+func findService(ctx context.Context, req *wendy.Request) *wendy.Response {
 	name := ""
 	req.Body.Bind(&name)
 

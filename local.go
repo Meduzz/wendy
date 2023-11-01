@@ -6,8 +6,9 @@ import (
 )
 
 type wendyLocal struct {
-	app     string
-	modules []*Module
+	app         string
+	modules     []*Module
+	middlewares []Wendy
 }
 
 func (w *wendyLocal) Handle(ctx context.Context, req *Request) *Response {
@@ -19,17 +20,13 @@ func (w *wendyLocal) Handle(ctx context.Context, req *Request) *Response {
 		}
 
 		if m.App() == req.App && m.Name() == req.Module {
-			method := m.Method(req.Method)
-
-			if method != nil {
-				return method(req)
-			}
+			return m.Handle(ctx, req)
 		}
 	}
 
 	return NotFound()
 }
 
-func local(app string, modules []*Module) Wendy {
-	return &wendyLocal{app, modules}
+func local(app string, modules []*Module, middlewares ...Wendy) Wendy {
+	return &wendyLocal{app, modules, middlewares}
 }

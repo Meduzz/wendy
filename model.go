@@ -24,8 +24,6 @@ type (
 		Type string          `json:"type"`
 		Data json.RawMessage `json:"data"`
 	}
-
-	Handler = func(*Request) *Response
 )
 
 const (

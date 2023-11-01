@@ -1,6 +1,6 @@
 # Wendy
 
-Wendy is a lightweight meta http framework. At the base is a familiar `Handler`-func `func(*wendy.Request) *wendy.Response`. What differs is the routing, instead of urls, a `Handler`-func is bound to a module and a name.
+Wendy is a lightweight meta http framework. At the base is a familiar `Handler`-func `func(context.Context, *wendy.Request) *wendy.Response`. What differs is the routing, instead of urls, a `Handler`-func is bound to a module and a name.
 
 You take care of the routing from what ever transport you're using into wendy.
 
