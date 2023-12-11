@@ -1,7 +1,5 @@
 package wendy
 
-import "context"
-
 type (
 	Module struct {
 		app     string
@@ -47,7 +45,7 @@ func (m *Module) CanHandle(req *Request) bool {
 	return false
 }
 
-func (m *Module) Handle(ctx context.Context, req *Request) *Response {
+func (m *Module) Handle(req *Request) *Response {
 	method, ok := m.methods[req.Method]
 
 	if ok {

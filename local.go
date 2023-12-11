@@ -19,7 +19,7 @@ func (w *wendyLocal) Handle(ctx context.Context, req *Request) *Response {
 
 	for _, m := range w.modules {
 		if m.CanHandle(req) {
-			return m.Handle(ctx, req)
+			return m.Handle(req)
 		}
 	}
 

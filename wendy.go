@@ -24,8 +24,3 @@ func FromModules(app string, modules ...*Module) Wendy {
 func FromModulesNoApp(modules ...*Module) Wendy {
 	return local("", modules)
 }
-
-// FromModule - use a single module as wendy
-func FromModule(module *Module) Wendy {
-	return Wendy(module)
-}
