@@ -30,7 +30,7 @@ var (
 
 func addService(req *wendy.Request) *wendy.Response {
 	svc := &Service{}
-	req.Body.Bind(svc)
+	req.Body.AsJson(svc)
 
 	list, ok := registry[svc.Name]
 
@@ -49,7 +49,7 @@ func addService(req *wendy.Request) *wendy.Response {
 
 func removeService(req *wendy.Request) *wendy.Response {
 	svc := &Service{}
-	req.Body.Bind(svc)
+	req.Body.AsJson(svc)
 
 	list, ok := registry[svc.Name]
 
@@ -69,7 +69,7 @@ func removeService(req *wendy.Request) *wendy.Response {
 
 func listServices(req *wendy.Request) *wendy.Response {
 	name := ""
-	req.Body.Bind(&name)
+	req.Body.AsJson(&name)
 
 	list, ok := registry[name]
 
@@ -86,7 +86,7 @@ func listServices(req *wendy.Request) *wendy.Response {
 
 func findService(req *wendy.Request) *wendy.Response {
 	name := ""
-	req.Body.Bind(&name)
+	req.Body.AsJson(&name)
 
 	list, ok := registry[name]
 

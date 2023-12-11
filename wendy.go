@@ -8,8 +8,24 @@ type Wendy interface {
 	Handle(context.Context, *Request) *Response
 }
 
-// Local - boot wendy in local mode
-func NewLocal(app string, modules ...*Module) Wendy {
+// FromModules - boot wendy in local mode with an app prefix
+func FromModules(app string, modules ...*Module) Wendy {
+	if app != "" {
+		for _, it := range modules {
+			it.SetApp(app)
+		}
+	}
+
 	// Handle the request locally
 	return local(app, modules)
+}
+
+// FromModulesNoApp - boot wendy in local mode without an app prefix
+func FromModulesNoApp(modules ...*Module) Wendy {
+	return local("", modules)
+}
+
+// FromModule - use a single module as wendy
+func FromModule(module *Module) Wendy {
+	return Wendy(module)
 }

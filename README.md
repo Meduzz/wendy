@@ -18,7 +18,7 @@ For an example module have a look at the [example service](example/service/servi
 
 ## Request
 
-The request is modeled roughtly after a http request, exept for the routing ofc. It has `Module` and `Method` properties for routing. It has a `Header` property (`map[string]string`). It has a `Body` property, that in turn have its own format.
+The request is modeled roughtly after a http request, exept for the routing ofc. It has `App`, `Module` and `Method` properties for routing. It has a `Header` property (`map[string]string`). It has a `Body` property, that in turn have its own format.
 
 ### Body
 
