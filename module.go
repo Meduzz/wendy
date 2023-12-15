@@ -36,7 +36,7 @@ func (m *Module) WithHandler(method string, handler Handler) *Module {
 }
 
 func (m *Module) CanHandle(req *Request) bool {
-	if m.app == req.App && m.name == req.Method {
+	if m.app == req.App && m.name == req.Module {
 		_, ok := m.methods[req.Method]
 
 		return ok
