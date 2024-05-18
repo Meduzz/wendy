@@ -2,28 +2,19 @@ package wendy
 
 type (
 	Module struct {
-		app     string
 		name    string
 		methods map[string]Handler
 	}
 )
 
-func NewModule(app, name string) *Module {
+func NewModule(name string) *Module {
 	methods := make(map[string]Handler)
-	return &Module{app, name, methods}
+	return &Module{name, methods}
 }
 
-func NewModuleNoApp(name string) *Module {
+func NewModuleNoPrefix(name string) *Module {
 	methods := make(map[string]Handler)
-	return &Module{"", name, methods}
-}
-
-func (m *Module) App() string {
-	return m.app
-}
-
-func (m *Module) SetApp(app string) {
-	m.app = app
+	return &Module{name, methods}
 }
 
 func (m *Module) Name() string {
@@ -36,7 +27,7 @@ func (m *Module) WithHandler(method string, handler Handler) *Module {
 }
 
 func (m *Module) CanHandle(req *Request) bool {
-	if m.app == req.App && m.name == req.Module {
+	if m.name == req.Module {
 		_, ok := m.methods[req.Method]
 
 		return ok

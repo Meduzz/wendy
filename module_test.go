@@ -10,16 +10,11 @@ func TestWendyModule(t *testing.T) {
 	text := "test"
 
 	echoRequest := wendy.Request{}
-	echoRequest.App = text
 	echoRequest.Module = text
 	echoRequest.Method = text
 
 	t.Run("handler addition and presence", func(t *testing.T) {
-		subject := wendy.NewModule(text, text)
-
-		if subject.App() != text {
-			t.Errorf("app was not correct, was: %s", subject.App())
-		}
+		subject := wendy.NewModule(text)
 
 		if subject.Name() != text {
 			t.Errorf("name was not correct, was: %s", subject.Name())
@@ -41,27 +36,6 @@ func TestWendyModule(t *testing.T) {
 
 		if !subject.CanHandle(&echoRequest) {
 			t.Errorf("could not handle echoRequest")
-		}
-
-		appLess := wendy.NewModuleNoApp(text)
-
-		appLess.WithHandler(text, echo)
-
-		if appLess.CanHandle(&echoRequest) {
-			t.Errorf("appLess could handle echoRequest")
-		}
-
-		echoRequest.App = ""
-
-		if !appLess.CanHandle(&echoRequest) {
-			t.Errorf("appLess could not handle echoRequest")
-		}
-
-		appLess.SetApp(text)
-		echoRequest.App = text
-
-		if !appLess.CanHandle(&echoRequest) {
-			t.Errorf("appLess could not handle echoRequest")
 		}
 	})
 }

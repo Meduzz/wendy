@@ -10,7 +10,6 @@ import (
 
 type (
 	Request struct {
-		App     string            `json:"app"`
 		Module  string            `json:"module"`
 		Method  string            `json:"method"`
 		Headers map[string]string `json:"headers,omitempty"`

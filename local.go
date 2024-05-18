@@ -6,7 +6,6 @@ import (
 )
 
 type wendyLocal struct {
-	app     string
 	modules []*Module
 }
 
@@ -26,6 +25,6 @@ func (w *wendyLocal) Handle(ctx context.Context, req *Request) *Response {
 	return NotFound()
 }
 
-func local(app string, modules []*Module) Wendy {
-	return &wendyLocal{app, modules}
+func local(modules []*Module) Wendy {
+	return &wendyLocal{modules}
 }

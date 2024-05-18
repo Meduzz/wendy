@@ -9,18 +9,7 @@ type Wendy interface {
 }
 
 // FromModules - boot wendy in local mode with an app prefix
-func FromModules(app string, modules ...*Module) Wendy {
-	if app != "" {
-		for _, it := range modules {
-			it.SetApp(app)
-		}
-	}
-
+func FromModules(modules ...*Module) Wendy {
 	// Handle the request locally
-	return local(app, modules)
-}
-
-// FromModulesNoApp - boot wendy in local mode without an app prefix
-func FromModulesNoApp(modules ...*Module) Wendy {
-	return local("", modules)
+	return local(modules)
 }
